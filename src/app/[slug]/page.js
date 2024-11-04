@@ -20,16 +20,23 @@ const Post = async ({ params }) => {
   const processedContent = await remark().use(html).process(content);
   const contentHtml = processedContent.toString();
 
-  const docs = fs.readdirSync(path.join(process.cwd(),'src/app/docs')).filter(file => file.endsWith('.md'))
-  .map((file) => ({
-    slug: file.replace('.md', ''),
-  }));
-
+  const docs = fs
+    .readdirSync(path.join(process.cwd(), 'src/app/docs'))
+    .filter((file) => file.endsWith('.md'))
+    .map((file) => ({
+      slug: file.replace('.md', ''),
+    }));
 
   return (
-    <div style={{ display: 'flex' }} className="w-full  flex h-screen overflow-hidden">
+    <div
+      style={{ display: 'flex' }}
+      className="w-full  flex h-screen overflow-hidden"
+    >
       <Sidebar docs={docs} />
-      <div className={styles.markdown} style={{ width: '80%', height:"100vh", overflowY: "auto" }}>
+      <div
+        className={styles.markdown}
+        style={{ width: '80%', overflowY: 'auto' }}
+      >
         <DocuSearch />
         <div
           dangerouslySetInnerHTML={{ __html: contentHtml }}
